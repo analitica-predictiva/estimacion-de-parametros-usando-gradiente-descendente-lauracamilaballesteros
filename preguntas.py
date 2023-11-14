@@ -19,13 +19,14 @@ def pregunta_01():
     from sklearn.preprocessing import PolynomialFeatures
 
     # Cargue el dataset `data.csv`
-    data = pd.read_csv("C:/Users/USUARIO/github-classroom/analitica-predictiva/estimacion-de-parametros-usando-gradiente-descendente-lauracamilaballesteros/data.csv")
+    data = pd.read_csv("data.csv")
 
     # Cree un objeto de tipo `PolynomialFeatures` con grado `2`
     poly = PolynomialFeatures(degree=2)
 
     # Transforme la columna `x` del dataset `data` usando el objeto `poly`
-    x_poly = poly.fit_transform(data[["x"]])
+    x_poly = poly.fit_transform(data[["x"]]).round(3)
+
 
     # Retorne x y y
     return x_poly, data.y
@@ -53,7 +54,7 @@ def pregunta_02():
         error = y_pred - y
 
         # Calcule el gradiente
-        gradient = -2 * np.dot(x_poly.T, error)
+        gradient = -2*np.sum(np.multiply(x_poly,np.array(error)[:,np.newaxis]),axis=0)
 
         # Actualice los parámetros
         params = params - learning_rate * gradient
